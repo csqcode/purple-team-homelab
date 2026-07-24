@@ -1,6 +1,7 @@
 # 03 - Lateral Movement
 
-**MITRE ATT&CK:** T1210 - Exploitation of Remote Services
+**MITRE ATT&CK:** T1021.001 - Remote Services: Remote Desktop Protocol
+   - T1048.003 - Exfiltration Over Unencrypted Non-C2 Protocol 
 
 **Status:** Complete
 
@@ -41,9 +42,17 @@ Use the credentials gained from 02-kerberoasting to access an admin account. Use
 - Since this administrator account had no restrains, we could access whatever data we wanted. Peeking through the documents of other administrators only requires us to confirm a pop-up window using our privileges.
 - Copying data instead of moving it leaves less of a trace. Once it has been copied into the drive, it will automatically appear in Kali's designated folder to be used and manipulated
 
+---
+
 ## Detection Engineering
 
 **Telementry Source:** Suricata, Windows Sysmon
+
+**Rationale:** I chose not to make any alerts for this step due to the risk of false positives. Generating an alert for any RDP session to a specific computer is impractical. Instead of this, I opted to get my conclusions from an active investigation session. I looked at the different IDs generated after the Kerberoasting session and decided what needed the most attention.
+
+---
+
+## Investigation Walkthrough
 
 Security RDP:
 
@@ -65,3 +74,25 @@ Sysmon Exfiltration:
 
 - Sysmon ID 1 is triggered everytime a new process is created. Reading through the log, we can see that a new file named "sensitive.txt" was made in a shared drive named "kali".
 - With this in mind, it would be useful to search the system for traces of "sensitive.txt". The file could represent some data Kali had stolen, or it could be a malicious file to be planted on the system.
+
+---
+
+## Detection Gaps / Limitations
+- Without any active alerts for this step, it can be hard to catch malicious activity (especially if the computer is noisy).
+- This step may not be the most realistic for large enterprises where each user has their own device. This may be better representative of smaller businesses, where a tighter budget means administrators and common users have to share the same devices.
+
+---
+
+## Real-World Mitigation
+- Use multi-factor authentication for RDP sessions
+- Use firewall rules to only allow RDP sessions from specific zones within a network
+- Use an IDS/IPS to detect malicious network traffic
+
+---
+
+## Takeaways
+- Though I did not have any alerts, I feel like I was still able to get an accurate representation of the situation post-kerberoasting.
+- I will need to look more into how I can make specific alerts without generating as many false positives.
+
+
+
