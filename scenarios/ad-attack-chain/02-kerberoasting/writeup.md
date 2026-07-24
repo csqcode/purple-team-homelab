@@ -13,10 +13,11 @@ Use NBTscan to find the DC and continue the attack chain. Use Impacket to get us
 ---
 
 ## Environment / Prerequisites
-**Attacker:** Kali
-**Target:** svc_sql
-**Starting access:** jcyber username and password
-**Lab weakening required:** Enable RC4 Encryption for Kerberos
+
+- **Attacker:** Kali
+- **Target:** svc_sql
+- **Starting access:** jcyber username and password
+- **Lab weakening required:** Enable RC4 Encryption for Kerberos
 
 ---
 
@@ -76,6 +77,7 @@ Splunk:
 - This attack exemplifies the importance of updating systems. If RC4 encryption was disabled, I would not have been able to do this attack at all
 - While systems can be forgotten about and remain outdated, it is less likely to happen with proper security measures in place. Suricata was sending me dozens of alerts about how my Kerberos encryption measures were weak. 
 - I was shocked by how nobody on the domain had to do anything for this step. Kali alone was able to escalate privileges using the automatic Kerberos ticketing.
+- If I were to replicate this again, I would like to configure an alert to detect NBTscan
 
 
 
