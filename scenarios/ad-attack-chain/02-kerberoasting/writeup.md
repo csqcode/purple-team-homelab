@@ -2,7 +2,9 @@
 
 **MITRE ATT&CK:** T1558.003 - Steal or Forge Kerberos Tickets: Kerberoasting
   - T1018 - Remote System Discovery
+
 **Status:** Complete
+
 ---
 
 ## Objective
@@ -64,8 +66,9 @@ Splunk:
 ---
 
 ## Real-World Mitigation
-- Disable RC4 encryption to prevent Kerberoasing
-- Use strong passwords on admin accounts to prevent hash cracking
+- Disable RC4 encryption or enable AES encryption
+- Use strong passwords that expire periodically
+- Limit the privileges of service accounts
 
 ---
 
