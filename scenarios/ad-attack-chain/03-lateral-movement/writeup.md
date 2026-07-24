@@ -15,16 +15,16 @@ Use the credentials gained from 02-kerberoasting to access an admin account. Use
 
 ## Environment / Prerequisites
 
-**Attacker:** Kali
-**Target:** sensitive.txt
-**Starting Access:** Administrator credentials
-**Lab Weakening Required:** N/A
+- **Attacker:** Kali
+- **Target:** sensitive.txt
+- **Starting Access:** Administrator credentials
+- **Lab Weakening Required:** N/A
 
 ---
 
 ## Attack Execution
 1. Establish an RDP session between Kali and Windows 11
-   - xfreerdp /u:svc_sql /p:[password] /v:10.10.10.x /drive:kali,/home/kali/Downloads /dynamic-resolution
+   - ```xfreerdp /u:svc_sql /p:[password] /v:10.10.10.x /drive:kali,/home/kali/Downloads /dynamic-resolution```
    - <img width="359" height="262" alt="Kali_RDP" src="https://github.com/user-attachments/assets/32a5cbf8-1d19-4cb0-a12d-b2414328d2f2" />
 
 2. Once connected, begin looking around for data to exfiltrate
@@ -48,7 +48,7 @@ Use the credentials gained from 02-kerberoasting to access an admin account. Use
 
 **Telementry Source:** Suricata, Windows Sysmon
 
-**Rationale:** I chose not to make any alerts for this step due to the risk of false positives. Generating an alert for any RDP session to a specific computer is impractical. Instead of this, I opted to get my conclusions from an active investigation session. I looked at the different IDs generated after the Kerberoasting session and decided what needed the most attention.
+**Rationale:** I chose not to make any alerts for this step due to the risk of false positives. Generating an alert for any RDP session to a specific computer is impractical. Instead of this, I opted to get my conclusions from an active investigation. I looked at the different logs generated after the Kerberoasting session and decided what needed the most attention.
 
 ---
 
