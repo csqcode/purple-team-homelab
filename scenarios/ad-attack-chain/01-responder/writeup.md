@@ -87,8 +87,10 @@ alert udp any 137 -> any 137 (msg:"NBT-NS Response Packet Detected, Possible NBT
 ---
 
 ## Real-World Mitigation
-- Mandatory cyber training encourages employees not to freely give out credentials, which would hinder the primary goal of responder.
+- Disable LLMNR/NBT-NS/mDNS if not needed
 - Enable SMB Signing to fully prevent poisoning
+- Use an IDS/IPS to detect traffic
+- Use proper network segmentation to isolate machines that do not need extensive network access
 
 ---
 
