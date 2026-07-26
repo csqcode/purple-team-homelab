@@ -1,7 +1,8 @@
 # 03 - Lateral Movement
 
 **MITRE ATT&CK:** T1021.001 - Remote Services: Remote Desktop Protocol
-   - T1048.003 - Exfiltration Over Unencrypted Non-C2 Protocol 
+   - T1548.002 - Bypass User Account Control
+   - T1048.003 - Exfiltration Over Unencrypted Non-C2 Protocol
 
 **Status:** Complete
 
