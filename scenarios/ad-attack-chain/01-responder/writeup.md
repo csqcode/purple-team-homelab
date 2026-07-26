@@ -76,6 +76,7 @@ alert udp any 137 -> any 137 (msg:"NBT-NS Response Packet Detected, Possible NBT
 <img width="490" height="305" alt="Splunk_LLMNR" src="https://github.com/user-attachments/assets/7db164be-25c9-4512-a091-8bfe76315780" />
 
 - If I received this alert in a workspace, I would likely first check any relevent dashboard panels to gain a better understanding of the alert. Moving on to the actual alert, I would see if the packet was allowed/denied, the severity, as well as the signature. I would then look at the Destination IP, Interface, and Source IP to get a better idea of where the packet was sent and where it came from. I might look into the Destination and see if it was a random user, or someone with administrator privileges. I could then research the Source, their role, and if Suricata generated any matching alerts about a running Kali Linux instance (This was detected so much I had to suppress the alert).
+- A lone LLMNR response isn't inherently malicious, so I need to gather as much context as possible before I make a decision.
 
 ---
 
