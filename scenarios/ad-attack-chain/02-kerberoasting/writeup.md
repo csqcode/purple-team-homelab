@@ -54,9 +54,17 @@ Splunk:
   
   <img width="681" height="439" alt="Splunk_Kerberoast" src="https://github.com/user-attachments/assets/d66cf883-91db-4abf-a755-775a8fde4711" />
   
-  - ID 4769 + Encryption_Type 0x17 matches a vulnerability associated with Kerberoasting. While nothing is inherently wrong if this is a particularly old system, it should still be noted that the AD needs to improve its encryption.
-  - It would be useful to look into the requester, service account, and actual ticket to ensure that nothing malicious is happening.
-  - Combined with the LLMNR alerts from 01-responder, I would be quite certain this is a malicious actor using a compromised account to try and escalate privileges in the AD.
+Alert: EID 4769, Encryption Type 0x17 (RC4) - TGS request for svc_sql SPN
+
+Initial Assessment: RC4 encryption is suspicious on a modern system and should be investigated; Its presence alone, however, is not definitive of an attack.
+
+Investigation: Queried Account_Name --> Found it was the low-privileged account present on 
+
+Correlation:
+
+Verdict:
+
+Recommended Response:
 
 ---
 
