@@ -95,15 +95,13 @@ Alert: ID 1 (Process Creation)
 
 Initial Assessment: Process creation is normal and expected of an active account; with the knowledge of a present attacker, however, this log should be investigated.
 
-Investigation: The User is listed to be svc_sql. The Image line implies svc_sql created, moved, or destroyed a note. The CommandLine field shows this action with the note happened in a tsclient drive called 'kali'. Queried the file 'sensitive.txt' --> Found to be a note containing the sensitive data of another administrator account.
+Investigation: The User is listed to be svc_sql. Query Computer_Name --> Matches the IP address of the target computer in the LLMNR attack. The Image line implies svc_sql created, moved, or destroyed a note. The CommandLine field shows this action with the note happened in a tsclient drive called 'kali'. Queried the file 'sensitive.txt' --> Found to be a note taken from the j.admin (domain administrator) account present on the same computer.
 
-Correlation:
+Correlation: tsclient helps to create a storage drive in a remote desktop session. For a drive named 'kali' to be present after a known compromised login, this is likely a drive meant for the attacker to move data on or off the system. With the known file 'sensitive.txt' found in this drive, the attacker stole sensitive data. This would have been possible with the administrator privileges of svc_sql.
 
-Verdict: 
+Verdict: True Positive - Lateral movement and data exfiltration
 
-Recommended Response: 
-- Sysmon ID 1 is triggered everytime a new process is created. Reading through the log, we can see that a new file named "sensitive.txt" was made in a shared drive named "kali".
-- With this in mind, it would be useful to search the system for traces of "sensitive.txt". The file could represent some data Kali had stolen, or it could be a malicious file to be planted on the system.
+Recommended Response: Disable the j.admin account and force a credential reset. Assume the entire domain is compromised. Identify the data that was actually taken from j.admin. Restrict RDP access and require MFA.
 
 ---
 
