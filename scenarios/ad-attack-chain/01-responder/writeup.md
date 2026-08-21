@@ -75,8 +75,11 @@ alert udp any 137 -> any 137 (msg:"NBT-NS Response Packet Detected, Possible NBT
 ## Investigation Walkthrough
 <img width="490" height="305" alt="Splunk_LLMNR" src="https://github.com/user-attachments/assets/7db164be-25c9-4512-a091-8bfe76315780" />
 
-- If I received this alert in a workspace, I would likely first check any relevent dashboard panels to gain a better understanding of the alert. Moving on to the actual alert, I would see if the packet was allowed/denied, the severity, as well as the signature. I would then look at the Destination IP, Interface, and Source IP to get a better idea of where the packet was sent and where it came from. I might look into the Destination and see if it was a random user, or someone with administrator privileges. I could then research the Source, their role, and if Suricata generated any matching alerts about a running Kali Linux instance (This was detected so much I had to suppress the alert).
-- A lone LLMNR response isn't inherently malicious, so I need to gather as much context as possible before I make a decision.
+Alert: Custom Suricata signature, "LLMNR Response Packet Detected, Possible LLMNR Poisoning," response observed on UDP port 5355 matching poisoned-answer byte pattern
+Initial Assessment: LLMNR is outdated and poses a security risk to the Active Directory. It is likely there is a poisoned response in an attempt to harvest credentials and gain system access.
+Investigation: Queried src_ip --> Saw multiple Suricata alerts for a potential Kali Linux instance running from that IP address
+Verdict: True Positive - active LLMNR poisoning resulting in credential exposure
+Recommended Response: Force a password reset for the compromised account. Disable LLMNR and NBT-NS in GPO. Hunt for downstream use of the account to view how far the compromise progressed.
 
 ---
 
