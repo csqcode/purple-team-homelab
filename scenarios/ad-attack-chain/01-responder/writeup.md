@@ -73,7 +73,8 @@ alert udp any 137 -> any 137 (msg:"NBT-NS Response Packet Detected, Possible NBT
 ---
 
 ## Investigation Walkthrough
-<img width="490" height="305" alt="Splunk_LLMNR" src="https://github.com/user-attachments/assets/7db164be-25c9-4512-a091-8bfe76315780" />
+<img width="490" height="278" alt="Splunk_LLMNR" src="https://github.com/user-attachments/assets/155f6ef9-04ad-4897-8cb6-8f3c34601ac0" />
+
 
 Alert: Custom Suricata signature, "LLMNR Response Packet Detected, Possible LLMNR Poisoning," response observed on UDP port 5355 matching poisoned-answer byte pattern
 
