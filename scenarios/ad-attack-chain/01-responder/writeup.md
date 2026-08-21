@@ -79,9 +79,9 @@ Alert: Custom Suricata signature, "LLMNR Response Packet Detected, Possible LLMN
 
 Initial Assessment: LLMNR is outdated and poses a security risk to the Active Directory. It is likely there is a poisoned response in an attempt to harvest credentials and gain system access.
 
-Investigation: Queried src_ip --> Saw multiple Suricata alerts for a Kali Linux instance running from that IP address
+Investigation: Queried src_ip --> Saw multiple Suricata alerts for a Kali Linux instance running from that IP address. Queried EID 4624 to find most recent user of targeted system --> Found to be the low-privilege user 'jcyber'.
 
-Verdict: True Positive - active LLMNR poisoning resulting in credential exposure
+Verdict: True Positive - active LLMNR poisoning resulting in credential exposure.
 
 Recommended Response: Force a password reset for the compromised account. Disable LLMNR and NBT-NS in GPO. Hunt for downstream use of the account to view how far the compromise progressed.
 
