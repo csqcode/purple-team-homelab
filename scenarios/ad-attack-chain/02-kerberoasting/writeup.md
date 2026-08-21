@@ -56,15 +56,15 @@ Splunk:
   
 Alert: EID 4769, Encryption Type 0x17 (RC4) - TGS request for svc_sql SPN
 
-Initial Assessment: RC4 encryption is suspicious on a modern system and should be investigated; Its presence alone, however, is not definitive of an attack.
+Initial Assessment: RC4 encryption is suspicious on a modern system and should be investigated; its presence alone, however, is not indicative of an attack.
 
-Investigation: Queried Account_Name --> Found it was the low-privileged account present on 
+Investigation: Queried Account_Name --> Found it was the low-privileged 'jcyber' account present in the LLMNR attack. Looked at the log time to see that the ticket was requested shortly after the LLMNR attack.
 
-Correlation:
+Correlation: Cross-referenced with the LLMNR alert on the same low-priv account within a short timeframe - consistent with a credential-theft to privilege-escalation attack chain
 
-Verdict:
+Verdict: True Positive - Kerberoasting attempt
 
-Recommended Response:
+Recommended Response: Reset svc_sql password, review SPN necessity, enable AES-only encryption, treat jcyber and svc_sql as compromised accounts
 
 ---
 
