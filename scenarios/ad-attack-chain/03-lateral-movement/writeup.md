@@ -59,20 +59,49 @@ Security RDP:
 
 <img width="596" height="439" alt="Splunk_RemoteAccess" src="https://github.com/user-attachments/assets/fc61d7b3-206f-4acc-b987-511618f5b190" />
 
-- After the investigation in 02-kerberoasting, we know that svc_sql is a compromised account. As a result this remote connection would be something to investigate. It could be a legitimate user trying to access the account (providing even more vulnerabilities due to the active threat), or an attacker trying to use administrator privileges.
-- Since we can't rule out anything from this log alone, we need to look at other sources
+Alert: EID 4624, Logon Type 10 - Remote Desktop Logon (Successful)
+
+Initial Assessment: A remote login is common and expected in an enterprise environment. Nothing particularly suspicious about the logon.
+
+Investigation: The log shows that svc_sql was logged into. This also occurred after the Kerberoasting attack from before. Since there is no source IP address, we cannot rule out if this was a legitimate or malicious logon.
+
+Correlation: We established before that svc_sql was a compromised account that needs to be monitored. The previous attacker could be trying to gain administrator access.
+
+Verdict: Suspicious - Further investigation needed
+
+Recommended Response: Look at other telemetry sources to see new angles of the logon.
 
 Suricata RDP:
 
 <img width="922" height="753" alt="image" src="https://github.com/user-attachments/assets/b039e94b-abf0-4dec-b46a-6d7b3617599a" />
 
-- This log confirms the RDP session to be malicious. The source IP matches the attacker IP from earlier attacks.
-- From this point onward, everything that the svc_sql account does needs to be questioned. The attacker has full access to the AD, so every action taken must be investigated.
+Alert: Suricata rdp (Remote Desktop Connection Established)
+
+Initial Assessment: The log name and contents initially portray the same story from before, but we have new information about the source IP address
+
+Investigation: Query src_ip --> Found to be the same IP address from the LLMNR attack.
+
+Correlation: After the LLMNR attack, the src_ip gained low-privileged access to the system. It was then able to use this access to create a Kerberos Ticket and get the credentials of svc_sql. We are now seeing the attacker use these credentials to log into svc_sql.
+
+Verdict: True Positive - Privileged Access
+
+Recommended Response: Reset svc_sql password, further monitor actions of svc_sql, jcyber, and the known source IP of the attacker.
 
 Sysmon Exfiltration:
 
 <img width="718" height="353" alt="Splunk_Exfiltration" src="https://github.com/user-attachments/assets/9131c53e-b006-4cbd-86c6-df962ab310e5" />
 
+Alert: ID 1 (Process Creation)
+
+Initial Assessment: Process creation is normal and expected of an active account; with the knowledge of a present attacker, however, this log should be investigated.
+
+Investigation: The User is listed to be svc_sql. The Image line implies svc_sql created, moved, or destroyed a note. The CommandLine field shows this action with the note happened in a tsclient drive called 'kali'. Queried the file 'sensitive.txt' --> Found to be a note containing the sensitive data of another administrator account.
+
+Correlation:
+
+Verdict: 
+
+Recommended Response: 
 - Sysmon ID 1 is triggered everytime a new process is created. Reading through the log, we can see that a new file named "sensitive.txt" was made in a shared drive named "kali".
 - With this in mind, it would be useful to search the system for traces of "sensitive.txt". The file could represent some data Kali had stolen, or it could be a malicious file to be planted on the system.
 
