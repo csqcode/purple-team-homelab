@@ -67,13 +67,13 @@ Alert: EID 4688 (New Process Creation)
 
 Initial Assessment: Process Creation is not inherently suspicious. It was created by svc_sql, though, so more investigation is needed
 
-Investigation: New_Process_Name shows something was created using schtasks.exe. Under Process_Command_Line, it can be verified that a scheduled task was created. In specific, one that runs the file 'update_svc.exe' on startup. 
+Investigation: New_Process_Name shows something was created using schtasks.exe. Under Process_Command_Line, it can be verified that a scheduled task was created. In specific, one that runs the file 'update_svc.exe' on startup. File name does not sound suspicious
 
-Correlation: After the attacker gained administrative access, he would have had full control over the Active Directory. Since this task was created by svc_sql, which we know to be compromised, it is very likely that the task is malicious. 
+Correlation: After the attacker gained administrative access, he would have had full control over the Active Directory. Since this task was created by svc_sql, which we know to be compromised, it is possible this task is malicious. 
 
-Verdict: True Positive
+Verdict: Suspicious - Further Investigation Needed
 
-Recommended Response: Remove the task and investigate update_svc.exe.
+Recommended Response: Investigate update_svc.exe.
 
 Connection:
 
@@ -89,7 +89,7 @@ Correlation: Update_svc.exe was executed and created this network connection, al
 
 Verdict: True Positive - Persistence
 
-Recommended Response: Delete update_svc.exe. Check for any other changes to the systems. Monitor outgoing connections to the attacker IP address.
+Recommended Response: Delete update_svc.exe and remove the scheduled task. Check for any other changes to the systems. Monitor outgoing connections to the attacker IP address.
 
 ---
 
