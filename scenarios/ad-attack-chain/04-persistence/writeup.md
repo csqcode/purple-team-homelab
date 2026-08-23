@@ -63,13 +63,33 @@ Task Creation:
 
 <img width="557" height="401" alt="Splunk_Task_Creation" src="https://github.com/user-attachments/assets/1d2e64b1-0603-45f3-9d2f-55dc4e484aa1" />
 
-- Knowing that svc_sql has been compromised, I would be immediately suspicious of this task. While there is nothing inherently malicious contained in the log, it would be worth investigating 'update_svc.exe' to make sure it is not a malicious program.
+Alert: EID 4688 (New Process Creation)
+
+Initial Assessment: Process Creation is not inherently suspicious. It was created by svc_sql, though, so more investigation is needed
+
+Investigation: New_Process_Name shows something was created using schtasks.exe. Under Process_Command_Line, it can be verified that a scheduled task was created. In specific, one that runs the file 'update_svc.exe' on startup. 
+
+Correlation: After the attacker gained administrative access, he would have had full control over the Active Directory. Since this task was created by svc_sql, which we know to be compromised, it is very likely that the task is malicious. 
+
+Verdict: True Positive
+
+Recommended Response: Remove the task and investigate update_svc.exe.
 
 Connection:
 
 <img width="422" height="398" alt="Splunk_Task_Connection" src="https://github.com/user-attachments/assets/7f766252-6d65-40fc-9263-f706ef8a56fa" />
 
-- This log provides proof that 'update_svc.exe' is malicious. After running, it initiated a network connection to the Kali IP over port 4444. With what we know about the Kali IP and destination port, it is clear that this task needs to be removed to ensure that the attacker fully loses access to the system.
+Alert: Sysmon ID 3 type 4 (Network Connection)
+
+Initial Assessment: Connections are normal and expected for systems, but they should be question in lieu of the recent attacks.
+
+Investigation: Source IP matches the Target from earlier. Destination IP matches the Kali attacker from earlier. Destination Port is 4444 --> Associated with Metasploit. Image is update_svc.exe.
+
+Correlation: Update_svc.exe was executed and created this network connection, allowing the attacker continuous access to the Active Directory. Combined with destination port 4444, update_svc.exe is likey a payload created using metasploit and planted onto the target system.
+
+Verdict: True Positive - Persistence
+
+Recommended Response: Delete update_svc.exe. Check for any other changes to the systems. Monitor outgoing connections to the attacker IP address.
 
 ---
 
