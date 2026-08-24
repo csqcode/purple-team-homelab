@@ -15,7 +15,7 @@
 
 ## Detection Stack Baseline
 - Suricata on Proxmox host, logging to eve.json
-- Splunk Free (500MB/day limit) with cron scheduling used for alerts
+- Splunk Free (500MB/day limit)
 - Sysmon + Universal Forwarder used on Windows 11 and DC. SwiftOnSecuirty baseline config
   - Key IDs collected: 1, 3, 4, 10, 11
 - Windows Event Logs: Security, System, Application
