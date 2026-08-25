@@ -27,10 +27,7 @@
 | --- | --- | --- | --- |
 | SMB Signing | Disabled | Computer Config --> Security Options | Disabled to allow for LLMNR poisoning |
 | RunAsPPL | 0 | Registry / Local Security Policy | Disabled to allow for Mimikatz use in future scenarios |
-| Credential Guard | Off | Computer Config --> Admin Templates | Disabled to allow for Mimikatz use in future scenarios |
-| WDigest | Enabled | Registry | Enabled to allow for Mimikatz use in future scenarios |
 | RC4 Kerberos | Permitted | Security Options --> Network Security: Configure Encryption Types | Enabled to allow for Kerberoasting |
-| Defender | Disabled | Admin Templates --> Windows Components --> Microsoft Defender Antivirus | Disabled to allow for Sharphound or malware use in future scenarios |
 
 ## Attack Chain
 | Stage | Technique | MITE ATT&CK | Status |
