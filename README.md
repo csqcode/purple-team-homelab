@@ -1,4 +1,4 @@
-# soc-homelab
+# purple-team-homelab
 This homelab aims to emulate a Security Operations Center using realistic attack chains and building detections across Splunk and Suricata. 
 
 ## Hardware
