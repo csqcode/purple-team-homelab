@@ -2,7 +2,6 @@
 
 **MITRE ATT&CK:** T1021.001 - Remote Services: Remote Desktop Protocol
    - T1548.002 - Bypass User Account Control
-   - T1048.003 - Exfiltration Over Unencrypted Non-C2 Protocol
 
 **Status:** Complete
 
@@ -10,14 +9,14 @@
 
 ## Objective
 
-Use the credentials gained from 02-kerberoasting to access an admin account. Use these privileges to exfiltrate data. 
+Use the credentials gained from 02-kerberoasting to access a domain admin account.
 
 ---
 
 ## Environment / Prerequisites
 
 - **Attacker:** Kali
-- **Target:** sensitive.txt
+- **Target:** j.admin
 - **Starting Access:** Administrator credentials
 - **Lab Weakening Required:** N/A
 
@@ -28,26 +27,23 @@ Use the credentials gained from 02-kerberoasting to access an admin account. Use
    - ```xfreerdp /u:svc_sql /p:[password] /v:10.10.10.x /drive:kali,/home/kali/Downloads /dynamic-resolution```
    - <img width="359" height="262" alt="Kali_RDP" src="https://github.com/user-attachments/assets/32a5cbf8-1d19-4cb0-a12d-b2414328d2f2" />
 
-2. Once connected, begin looking around for data to exfiltrate
-3. Use administrator privileges to access other administrators' files
-   - <img width="271" height="197" alt="Kali_Access" src="https://github.com/user-attachments/assets/2ff0d15b-76d0-4b5e-9594-75f12812c4ca" />
+2. Once connected, browse the system for ways to heighten access.
+3. Attempt to access "C:\Users\j.admin"
+   - <img width="122" height="64" alt="Kali_Perms" src="https://github.com/user-attachments/assets/b99cb0a4-e018-4756-8dee-d6f396be4919" />
 
-5. Copy data and paste it into the shared drive between Kali and Windows 11
-6. Verify file is in Kali
-   - <img width="165" height="52" alt="Kali_Sensitive" src="https://github.com/user-attachments/assets/edcef731-ea8c-43cf-acd2-0cd311963d41" />
+5. Escalate privileges
 
 ---
 
 ## Explanation
 - Establishing an RDP session allows full access to the AD with administrator privileges. The specific command we used generates a shared storage drive between Kali and Windows. Any files put in there will be accessible to both instances. This also allows for the transfer of other exploits, like Sharphound and Mimikatz.
 - Since this administrator account had no restrains, we could access whatever data we wanted. Peeking through the documents of other administrators only requires us to confirm a pop-up window using our privileges.
-- Copying data instead of moving it leaves less of a trace. Once it has been copied into the drive, it will automatically appear in Kali's designated folder to be used and manipulated
 
 ---
 
 ## Detection Engineering
 
-**Telementry Source:** Suricata, Windows Sysmon
+**Telementry Source:** Windows Security, Sysmon
 
 **Rationale:** I chose not to make any alerts for this step due to the risk of false positives. Generating an alert for any RDP session to a specific computer is impractical. Instead of this, I opted to get my conclusions from an active investigation. I looked at the different logs generated after the Kerberoasting session and decided what needed the most attention.
 
@@ -86,22 +82,6 @@ Correlation: After the LLMNR attack, the src_ip gained low-privileged access to 
 Verdict: True Positive - Privileged Access
 
 Recommended Response: Reset svc_sql password, further monitor actions of svc_sql, jcyber, and the known source IP of the attacker.
-
-Sysmon Exfiltration:
-
-<img width="718" height="353" alt="Splunk_Exfiltration" src="https://github.com/user-attachments/assets/9131c53e-b006-4cbd-86c6-df962ab310e5" />
-
-Alert: ID 1 (Process Creation)
-
-Initial Assessment: Process creation is normal and expected of an active account; with the knowledge of a present attacker, however, this log should be investigated.
-
-Investigation: The User is listed to be svc_sql. Query Computer_Name --> Matches the IP address of the target computer in the LLMNR attack. The Image line implies svc_sql created, moved, or destroyed a note. The CommandLine field shows this action with the note happened in a tsclient drive called 'kali'. Queried the file 'sensitive.txt' --> Found to be a note taken from the j.admin (domain administrator) account present on the same computer.
-
-Correlation: tsclient helps to create a storage drive in a remote desktop session. For a drive named 'kali' to be present after a known compromised login, this is likely a drive meant for the attacker to move data on or off the system. With the known file 'sensitive.txt' found in this drive, the attacker stole sensitive data. This would have been possible with the administrator privileges of svc_sql.
-
-Verdict: True Positive - Lateral movement and data exfiltration
-
-Recommended Response: Disable the j.admin account and force a credential reset. Assume the entire domain is compromised. Identify the data that was actually taken from j.admin. Restrict RDP access and require MFA.
 
 ---
 
