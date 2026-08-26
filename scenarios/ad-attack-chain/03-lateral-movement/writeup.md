@@ -95,6 +95,8 @@ Recommended Response: Reset svc_sql password, further monitor actions of svc_sql
 - Use multi-factor authentication for RDP sessions
 - Use firewall rules to only allow RDP sessions from specific zones within a network
 - Use an IDS/IPS to detect malicious network traffic
+- Check for common UAC bypass weaknesses on Windows systems
+- Keep Windows updated
 
 ---
 
