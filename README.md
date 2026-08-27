@@ -1,5 +1,5 @@
 # purple-team-homelab
-This homelab aims to emulate a Security Operations Center using realistic attack chains and building detections across Splunk and Suricata. 
+This homelab aims to emulate security scenarios that enterprises may face using realistic attack chains and building detection across Splunk and Suricata. 
 
 ## Hardware
 - Dell Latitude 3310 (Isolator)
