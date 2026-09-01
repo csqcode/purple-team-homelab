@@ -45,17 +45,17 @@ Use new privileges to access and exfiltrate sensitive data.
 
 <img width="718" height="353" alt="Splunk_Exfiltration" src="https://github.com/user-attachments/assets/9131c53e-b006-4cbd-86c6-df962ab310e5" />
 
-Alert: ID 1 (Process Creation)
+**Alert:** ID 1 (Process Creation)
 
-Initial Assessment: Process creation is normal and expected of an active account; with the knowledge of a present attacker, however, this log should be investigated.
+**Initial Assessment:** Process creation is normal and expected of an active account; with the knowledge of a present attacker, however, this log should be investigated.
 
-Investigation: The User is listed to be svc_sql. Query Computer_Name --> Matches the IP address of the target computer in the LLMNR attack. The Image line implies svc_sql created, moved, or destroyed a note. The CommandLine field shows this action with the note happened in a tsclient drive called 'kali'. Queried the file 'sensitive.txt' --> Found to be a note taken from the j.admin (domain administrator) account present on the same computer.
+**Investigation:** The User is listed to be svc_sql. Query Computer_Name --> Matches the IP address of the target computer in the LLMNR attack. The Image line implies svc_sql created, moved, or destroyed a note. The CommandLine field shows this action with the note happened in a tsclient drive called 'kali'. Queried the file 'sensitive.txt' --> Found to be a note taken from the j.admin (domain administrator) account present on the same computer.
 
-Correlation: tsclient helps to create a storage drive in a remote desktop session. For a drive named 'kali' to be present after a known compromised login, this is likely a drive meant for the attacker to move data on or off the system. With the known file 'sensitive.txt' found in this drive, the attacker stole sensitive data. This would have been possible with the administrator privileges of svc_sql.
+**Correlation:** tsclient helps to create a storage drive in a remote desktop session. For a drive named 'kali' to be present after a known compromised login, this is likely a drive meant for the attacker to move data on or off the system. With the known file 'sensitive.txt' found in this drive, the attacker stole sensitive data. This would have been possible with the administrator privileges of svc_sql.
 
-Verdict: True Positive - Data exfiltration
+**Verdict:** True Positive - Data exfiltration
 
-Recommended Response: Disable the j.admin account and force a credential reset. Assume the entire domain is compromised. Identify the data that was actually taken from j.admin. Restrict RDP access and require MFA.
+**Recommended Response:** Disable the j.admin account and force a credential reset. Assume the entire domain is compromised. Identify the data that was actually taken from j.admin. Restrict RDP access and require MFA.
 
 ---
 
