@@ -55,33 +55,33 @@ Security RDP:
 
 <img width="596" height="439" alt="Splunk_RemoteAccess" src="https://github.com/user-attachments/assets/fc61d7b3-206f-4acc-b987-511618f5b190" />
 
-Alert: EID 4624, Logon Type 10 - Remote Desktop Logon (Successful)
+**Alert:** EID 4624, Logon Type 10 - Remote Desktop Logon (Successful)
 
-Initial Assessment: A remote login is common and expected in an enterprise environment. Nothing particularly suspicious about the logon.
+**Initial Assessment:** A remote login is common and expected in an enterprise environment. Nothing particularly suspicious about the logon.
 
-Investigation: The log shows that svc_sql was logged into. This also occurred after the Kerberoasting attack from before. Since there is no source IP address, we cannot rule out if this was a legitimate or malicious logon.
+**Investigation:** The log shows that svc_sql was logged into. This also occurred after the Kerberoasting attack from before. Since there is no source IP address, we cannot rule out if this was a legitimate or malicious logon.
 
-Correlation: We established before that svc_sql was a compromised account that needs to be monitored. The previous attacker could be trying to gain administrator access.
+**Correlation:** We established before that svc_sql was a compromised account that needs to be monitored. The previous attacker could be trying to gain administrator access.
 
-Verdict: Suspicious - Further investigation needed
+**Verdict:** Suspicious - Further investigation needed
 
-Recommended Response: Look at other telemetry sources to see new angles of the logon.
+**Recommended Response:** Look at other telemetry sources to see new angles of the logon.
 
 Suricata RDP:
 
 <img width="922" height="753" alt="image" src="https://github.com/user-attachments/assets/b039e94b-abf0-4dec-b46a-6d7b3617599a" />
 
-Alert: Suricata rdp (Remote Desktop Connection Established)
+**Alert:** Suricata rdp (Remote Desktop Connection Established)
 
-Initial Assessment: The log name and contents initially portray the same story from before, but we have new information about the source IP address
+**Initial Assessment:** The log name and contents initially portray the same story from before, but we have new information about the source IP address
 
-Investigation: Query src_ip --> Found to be the same IP address from the LLMNR attack.
+**Investigation:** Query src_ip --> Found to be the same IP address from the LLMNR attack.
 
-Correlation: After the LLMNR attack, the src_ip gained low-privileged access to the system. It was then able to use this access to create a Kerberos Ticket and get the credentials of svc_sql. We are now seeing the attacker use these credentials to log into svc_sql.
+**Correlation:** After the LLMNR attack, the src_ip gained low-privileged access to the system. It was then able to use this access to create a Kerberos Ticket and get the credentials of svc_sql. We are now seeing the attacker use these credentials to log into svc_sql.
 
-Verdict: True Positive - Privileged Access
+**Verdict:** True Positive - Privileged Access
 
-Recommended Response: Reset svc_sql password, further monitor actions of svc_sql, jcyber, and the known source IP of the attacker.
+**Recommended Response:** Reset svc_sql password, further monitor actions of svc_sql, jcyber, and the known source IP of the attacker.
 
 ---
 
