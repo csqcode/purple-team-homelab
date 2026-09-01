@@ -34,7 +34,8 @@
 | [01 - LLMNR/NBT-NS Poisoning](01-responder/) | Responder Credential Capture | T1557.001 | Complete |
 | [02 - Kerberoasting](02-kerberoasting/) | SPN Ticket Extraction | T1558.003 & T1018 | Complete |
 | [03 - Lateral Movement](03-lateral-movement/) | Privilege Escalation & RDP Drive Redirection | T1021.001 & T1548.002 & T1048.003 | Complete |
-| [04 - Persistence](04-persistence/) | Scheduled Task + Meterpreter Callback | T1053.005 | Complete
+| [04 - Exfiltration](03-exfiltration/) | RDP Drive Redirection | T1021.001 | Complete |
+| [05 - Persistence](05-persistence/) | Scheduled Task + Meterpreter Callback | T1053.005 | Complete |
 
 ## Backup Process
 - Backups of individual target VMs were taken immediately before starting any attacks. They can be restored after future sessions to bring the lab back to a vulnerable, untouched state after a lengthy attack.
