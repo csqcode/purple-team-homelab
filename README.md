@@ -25,9 +25,9 @@ This lab was designed with a primary focus on Splunk analysis. Targets are weake
 ## Scenarios
 | Scenario | Techniques Covered | Detection Sources | Status | 
 | --- | --- | --- | --- |
-| [AD Attack Chain](scenarios/ad-attack-chain/) | LLMNR/NBT-NS Poisoning, Kerberoasting, Lateral Movement, Scheduled Task Persistence, data exfiltration | Sysmon, Security Event Logs, Suricata | Completed |
-| Multi-VM Correlation | Triage, Attacks across hosts, Cross-source timeline correlation | Sysmon, Security Event Logs, Suricata | Planned |
-| Dynamic Malware Analysis | Process tree analysis, Network callback detection, persistence observation | Sysmon | Planned |
+| [AD Attack Chain](scenarios/ad-attack-chain/) | LLMNR/NBT-NS Poisoning, Kerberoasting, Lateral Movement, Scheduled Task Persistence, Data Exfiltration | Sysmon, Security Event Logs, Suricata | Completed |
+| Multi-VM Correlation | Triage, Attacks Across Hosts, Cross-Source Timeline Correlation | Sysmon, Security Event Logs, Suricata | Planned |
+| Dynamic Malware Analysis | Process Tree Analysis, Network Callback Detection, Persistence Observation | Sysmon | Planned |
 
 ## Repo Structure
 - [scenarios/](scenarios/) - Contains folders that are categorized by the attacks they simulate
