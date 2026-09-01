@@ -54,17 +54,17 @@ Splunk:
   
   <img width="681" height="439" alt="Splunk_Kerberoast" src="https://github.com/user-attachments/assets/d66cf883-91db-4abf-a755-775a8fde4711" />
   
-Alert: EID 4769, Encryption Type 0x17 (RC4) - TGS request for svc_sql SPN
+**Alert:** EID 4769, Encryption Type 0x17 (RC4) - TGS request for svc_sql SPN
 
-Initial Assessment: RC4 encryption is suspicious on a modern system and should be investigated; its presence alone, however, is not indicative of an attack.
+**Initial Assessment:** RC4 encryption is suspicious on a modern system and should be investigated; its presence alone, however, is not indicative of an attack.
 
-Investigation: Queried Account_Name --> Found it was the low-privileged 'jcyber' account present in the LLMNR attack. Looked at the log time to see that the ticket was requested shortly after the LLMNR attack.
+**Investigation:** Queried Account_Name --> Found it was the low-privileged 'jcyber' account present in the LLMNR attack. Looked at the log time to see that the ticket was requested shortly after the LLMNR attack.
 
-Correlation: Cross-referenced with the LLMNR alert on the same low-priv account within a short timeframe - consistent with a credential-theft to privilege-escalation attack chain
+**Correlation:** Cross-referenced with the LLMNR alert on the same low-priv account within a short timeframe - consistent with a credential-theft to privilege-escalation attack chain
 
-Verdict: True Positive - Kerberoasting attempt
+**Verdict:** True Positive - Kerberoasting attempt
 
-Recommended Response: Reset svc_sql password, review SPN necessity, enable AES-only encryption, treat jcyber and svc_sql as compromised accounts
+**Recommended Response:** Reset svc_sql password, review SPN necessity, enable AES-only encryption, treat jcyber and svc_sql as compromised accounts
 
 ---
 
